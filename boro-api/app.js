@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({ origin: true }));
 
 // Routes
-app.use("/api", routes);
+app.use("/boro-api/api", routes);
 
 app.listen(process.env.API_PORT || 8080, () => {
   console.log(`Server running on port ${process.env.API_PORT || 8080}`);
