@@ -38,7 +38,7 @@ const AccountDetails: React.FC<{ lang: string }> = ({ lang }) => {
   useEffect(() => {
     const fetchAccountDetails = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/account'); // Replace with actual API endpoint
+        const response = await axios.get('https://agrisunethiopia.com/boro-api/api/account'); // Replace with actual API endpoint
         const accountData = response.data;
         setDefaultValues(accountData); // Set the default values with API response
         reset(accountData); // Reset the form with the fetched data
