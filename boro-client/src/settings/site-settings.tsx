@@ -7,7 +7,7 @@ import { ESFlag } from '@components/icons/language/ESFlag';
 import siteLogo from 'public/assets/images/logo.svg';
 
 export const siteSettings = {
-  name: 'BoroBazar',
+  name: 'MarketFresh',
   description:
     'Fastest E-commerce template built with React, NextJS, TypeScript, TanStack-React-Query and Tailwind CSS.',
   author: {
@@ -17,7 +17,7 @@ export const siteSettings = {
   },
   logo: {
     url: siteLogo,
-    alt: 'BoroBazar',
+    alt: 'MarketFresh',
     href: '/en',
     width: 128,
     height: 30,
