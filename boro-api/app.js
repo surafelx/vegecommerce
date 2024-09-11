@@ -34,13 +34,3 @@ app.listen(process.env.API_PORT || 8080, () => {
   console.log(`Server running on port ${process.env.API_PORT || 8080}`);
 });
 
-location /boro-api {
-  proxy_pass http://127.0.0.1:z;
-  proxy_set_header Host $host;
-  proxy_set_header X-Real-IP $remote_addr;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto $scheme;
-proxy_connect_timeout       600;
-proxy_send_timeout          600;
-proxy_read_timeout          600;
-}
