@@ -15,9 +15,11 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ msg: "User already exists" });
     }
 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     user = new User({
       email,
-      password,
+      password: hashedPassword,
     });
 
     await user.save();
@@ -54,6 +56,8 @@ router.post("/login", async (req, res) => {
     if (!user) {
       return res.status(400).json({ msg: "Invalid Credentials" });
     }
+
+    console.log(user)
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {

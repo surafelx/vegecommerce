@@ -41,19 +41,18 @@ export default function SignUpForm({
   }
 
   async function onSubmit({
-    name,
     email,
     password,
     remember_me,
   }: SignUpInputType) {
     try {
-      const response = await fetch('https://agrisunethiopia.com/boro-api/api/auth/register', {
+      const response = await fetch('http://localhost:8080/boro-api/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
+          role: "customer",
           email,
           password,
           remember_me,
@@ -71,12 +70,10 @@ export default function SignUpForm({
       // Assuming the backend sends back a token
       localStorage.setItem('token', data.token);
       signUp({
-        name,
         email,
         password,
         remember_me,
       });
-      console.log(name, email, password, 'sign form values');
     } catch (error) {
       console.error('Registration error:', error);
     }
@@ -125,16 +122,7 @@ export default function SignUpForm({
             noValidate
           >
             <div className="flex flex-col space-y-4">
-              <Input
-                label={t('forms:label-name') as string}
-                type="text"
-                variant="solid"
-                {...register('name', {
-                  required: 'forms:name-required',
-                })}
-                error={errors.name?.message}
-                lang={lang}
-              />
+             
               <Input
                 label={t('forms:label-email') as string}
                 type="email"

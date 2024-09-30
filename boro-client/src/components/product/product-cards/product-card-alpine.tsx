@@ -59,7 +59,8 @@ const ProductCardAlpine: React.FC<ProductProps> = ({
   className,
   lang,
 }) => {
-  const { name, image, unit, product_type } = product ?? {};
+// @ts-ignore
+  const { name, image, unit, product_type } = product[0] ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation(lang, 'common');
   const { price, basePrice, discount } = usePrice({

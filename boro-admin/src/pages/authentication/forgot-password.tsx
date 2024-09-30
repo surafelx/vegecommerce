@@ -6,7 +6,7 @@ const ForgotPasswordPage: FC = function () {
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <a href="/" className="my-6 flex items-center gap-x-1 lg:my-0">
-        Dennis Work
+        Market Fresh
       </a>
       <Card className="w-full lg:max-w-[640px] lg:[&>*]:w-full lg:[&>*]:p-16">
         <h1 className="text-2xl font-bold dark:text-white md:text-3xl">

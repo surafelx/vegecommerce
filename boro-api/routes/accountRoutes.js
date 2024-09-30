@@ -1,7 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userModel"); // Assuming your model is in the 'models' folder
+const {
+  // addProduct,
+  // deleteProduct,
+  // editProduct,
+  getAccounts,
+  addAccount,
+  editAccount,
+  deleteAccount
+} = require("../controllers/accountsController");
 
+router.get("/all", getAccounts);
+router.post("/",  addAccount);
+router.put("/:id",  editAccount);
+router.delete("/:id", deleteAccount);
 // GET user details without password
 router.get("/user/:id", async (req, res) => {
   try {

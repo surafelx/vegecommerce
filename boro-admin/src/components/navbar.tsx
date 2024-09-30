@@ -50,7 +50,7 @@ const ExampleNavbar: FC = function () {
                 )}
               </button>
             )}
-            <Navbar.Brand href="/">Dennis Work</Navbar.Brand>
+            <Navbar.Brand href="/">Market Fresh</Navbar.Brand>
             <form className="ml-16 hidden md:block">
               <Label htmlFor="search" className="sr-only">
                 Search

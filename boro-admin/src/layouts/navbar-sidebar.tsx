@@ -104,7 +104,7 @@ const MainContentFooter: FC = function () {
         </div>
       </Footer>
       <p className="my-8 text-center text-sm text-gray-500 dark:text-gray-300">
-        &copy; 2024 Dennis Work. All rights reserved.
+        &copy; 2024 Market Fresh. All rights reserved.
       </p>
     </>
   );

@@ -7,7 +7,7 @@ const ProfileLockPage: FC = function () {
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <a href="/" className="my-8 flex items-center gap-x-1 lg:my-0">
-        Dennis Work
+        Market Fresh
       </a>
       <Card className="w-full md:max-w-[640px] md:[&>*]:w-full md:[&>*]:p-16">
         <div className="flex items-center gap-x-4">

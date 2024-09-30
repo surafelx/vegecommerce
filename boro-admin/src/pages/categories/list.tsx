@@ -6,9 +6,13 @@ import {
   Label,
   Modal,
   Table,
+  FileInput,
+  Textarea,
   TextInput,
 } from "flowbite-react";
+import axios from "axios";
 import type { FC } from "react";
+import { useEffect, useState } from "react";
 import {
   HiChevronLeft,
   HiChevronRight,
@@ -19,12 +23,11 @@ import {
   HiHome,
   HiOutlineExclamationCircle,
   HiOutlinePencilAlt,
+  HiPencil,
   HiPlus,
   HiTrash,
 } from "react-icons/hi";
 import NavbarSidebarLayout from "../../layouts/navbar-sidebar";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
 const UserListPage: FC = function () {
   const [products, setProducts] = useState([]);
@@ -32,7 +35,7 @@ const UserListPage: FC = function () {
 
   const getProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/boro-api/api/account/all");
+      const response = await axios.get("http://localhost:8080/boro-api/api/categories");
       setProducts(response.data.data);
       return response.data;
     } catch (error) {
@@ -44,7 +47,6 @@ const UserListPage: FC = function () {
   useEffect(() => {
     getProducts();
   }, []);
-
 
   return (
     <NavbarSidebarLayout isFooter={false}>
@@ -58,11 +60,11 @@ const UserListPage: FC = function () {
                   <span className="dark:text-white">Home</span>
                 </div>
               </Breadcrumb.Item>
-              <Breadcrumb.Item href="/users/list">Users</Breadcrumb.Item>
+              <Breadcrumb.Item href="/products/list">Categories</Breadcrumb.Item>
               <Breadcrumb.Item>List</Breadcrumb.Item>
             </Breadcrumb>
             <h1 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">
-              All users
+              All Categories
             </h1>
           </div>
           <div className="sm:flex">
@@ -75,7 +77,7 @@ const UserListPage: FC = function () {
                   <TextInput
                     id="users-search"
                     name="users-search"
-                    placeholder="Search for users"
+                    placeholder="Search for categories"
                   />
                 </div>
               </form>
@@ -111,7 +113,10 @@ const UserListPage: FC = function () {
               </div>
             </div>
             <div className="ml-auto flex items-center space-x-2 sm:space-x-3">
-              <AddUserModal />
+              <AddProduct
+                setIsLoading={setIsLoading}
+                getProducts={getProducts}
+              />
               <Button color="gray">
                 <div className="flex items-center gap-x-3">
                   <HiDocumentDownload className="text-xl" />
@@ -126,7 +131,12 @@ const UserListPage: FC = function () {
         <div className="overflow-x-auto">
           <div className="inline-block min-w-full align-middle">
             <div className="overflow-hidden shadow">
-              <AllUsersTable />
+              <AllProductsTable
+                getProducts={getProducts}
+                isLoading={isLoading}
+                setIsLoading={setIsLoading}
+                products={products}
+              />
             </div>
           </div>
         </div>
@@ -136,94 +146,87 @@ const UserListPage: FC = function () {
   );
 };
 
-const AddUserModal: FC = function () {
+const AddProduct: any = ({ setIsLoading, getProducts }: any) => {
   const [isOpen, setOpen] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
+ 
+
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsLoading(true);
+    event.preventDefault();
+
+    
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/boro-api/api/categories",
+        {name: categoryName},
+      );
+      console.log("Product added successfully:", response.data);
+      setCategoryName("")
+      getProducts();
+      setOpen(false);
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-3">
           <HiPlus className="text-xl" />
-          Add user
+          Add Category
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
-        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Add new user</strong>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="firstName">First name</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="firstName"
-                  name="firstName"
-                  placeholder="Bonnie"
-                />
+        <form onSubmit={handleSubmit}>
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Add New Category</strong>
+          </Modal.Header>
+          <Modal.Body>
+   
+            <div className="mb-2 flex gap-4 justify-between">
+              <div className="mb-2 w-full">
+                <Label htmlFor="categoryName">Name</Label>
+                <div className="mt-1">
+                  <TextInput
+                    onChange={(e) => setCategoryName(e.target.value)}
+                    value={categoryName}
+                    id="categoryName"
+                    name="categoryName"
+                    placeholder="Enter Category Name"
+                    required
+                  />
+                </div>
               </div>
+
+             
             </div>
-            <div>
-              <Label htmlFor="lastName">Last name</Label>
-              <div className="mt-1">
-                <TextInput id="lastName" name="lastName" placeholder="Green" />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="email"
-                  name="email"
-                  placeholder="example@company.com"
-                  type="email"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="phone">Phone number</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="phone"
-                  name="phone"
-                  placeholder="e.g., +(12)3456 789"
-                  type="tel"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="department"
-                  name="department"
-                  placeholder="Development"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="company">Company</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="company"
-                  name="company"
-                  placeholder="Somewhere"
-                />
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="primary" onClick={() => setOpen(false)}>
-            Add user
-          </Button>
-        </Modal.Footer>
+
+          </Modal.Body>
+          <Modal.Footer>
+            <Button color="primary" type="submit">
+              Add Category
+            </Button>
+            <Button color="secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </>
   );
 };
 
-const AllUsersTable: FC = function () {
+const AllProductsTable: any = function ({
+  getProducts,
+  products,
+  isLoading,
+  setIsLoading,
+}: any): any {
   return (
     <Table className="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
       <Table.Head className="bg-gray-100 dark:bg-gray-700">
@@ -234,191 +237,172 @@ const AllUsersTable: FC = function () {
           <Checkbox id="select-all" name="select-all" />
         </Table.HeadCell>
         <Table.HeadCell>Name</Table.HeadCell>
-        <Table.HeadCell>Role Name</Table.HeadCell>
-        <Table.HeadCell>Company Name</Table.HeadCell>
-        <Table.HeadCell>Status</Table.HeadCell>
         <Table.HeadCell>Actions</Table.HeadCell>
       </Table.Head>
       <Table.Body className="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-        <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
-          <Table.Cell className="w-4 p-4">
-            <div className="flex items-center">
-              <Checkbox aria-describedby="checkbox-1" id="checkbox-1" />
-              <label htmlFor="checkbox-1" className="sr-only">
-                checkbox
-              </label>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
-            <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              <div className="text-base font-semibold text-gray-900 dark:text-white">
-                User Name
-              </div>
-              <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
-                username@email.com
-              </div>
-            </div>
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            Role Name
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-medium text-gray-900 dark:text-white">
-            Company Name
-          </Table.Cell>
-          <Table.Cell className="whitespace-nowrap p-4 text-base font-normal text-gray-900 dark:text-white">
-            <div className="flex items-center">
-              <div className="mr-2 h-2.5 w-2.5 rounded-full bg-green-400"></div>{" "}
-              Active
-            </div>
-          </Table.Cell>
-          <Table.Cell>
-            <div className="flex items-center gap-x-3 whitespace-nowrap">
-              <EditUserModal />
-              <DeleteUserModal />
-            </div>
-          </Table.Cell>
-        </Table.Row>
+        {!isLoading ? (
+          <>
+            {products.map((product: any) => {
+              const imageUrl = product.image
+                ? `http://localhost:8080/${product.image}`
+                : null;
+
+              return (
+                <Table.Row className="hover:bg-gray-100 dark:hover:bg-gray-700">
+                 
+                
+                  <Table.Cell className="mr-12 flex items-center space-x-6 whitespace-nowrap p-4 lg:mr-0">
+                    <div className="text-sm font-normal text-gray-500 dark:text-gray-400">
+                      <div className="text-base font-semibold text-gray-900 dark:text-white">
+                        {product.name}
+                      </div>
+                    </div>
+                  </Table.Cell>
+                  
+
+                  <Table.Cell>
+                    <div className="flex items-center gap-x-3 whitespace-nowrap">
+                      <EditProduct
+                        getProducts={getProducts}
+                        setIsLoading={setIsLoading}
+                        product={product}
+                      />
+                      <DeleteProduct
+                        getProducts={getProducts}
+                        setIsLoading={setIsLoading}
+                        product={product}
+                      />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              );
+            })}
+          </>
+        ) : (
+          <>"Loading"</>
+        )}
       </Table.Body>
     </Table>
   );
 };
 
-const EditUserModal: FC = function () {
+const EditProduct: any = ({ getProducts, product, setIsLoading }: any) => {
   const [isOpen, setOpen] = useState(false);
+  const [productName, setProductName] = useState(product.name);
+
+ 
+
+  const handleSubmit = async (event: any) => {
+    setIsLoading(true);
+    event.preventDefault();
+
+  
+    
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/boro-api/api/categories/${product._id}`,
+        {name: productName},
+      );
+      await getProducts();
+      console.log("Category edited successfully:", response.data);
+      setOpen(false);
+    } catch (error) {
+      console.error("Error editing category:", error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Button color="primary" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
-          <HiOutlinePencilAlt className="text-lg" />
-          Edit user
+          <HiPencil className="text-lg" />
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen}>
-        <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
-          <strong>Edit user</strong>
-        </Modal.Header>
-        <Modal.Body>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div>
-              <Label htmlFor="firstName">First name</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="firstName"
-                  name="firstName"
-                  placeholder="Bonnie"
-                />
+        <form onSubmit={handleSubmit}>
+          <Modal.Header className="border-b border-gray-200 !p-6 dark:border-gray-700">
+            <strong>Edit {productName}</strong>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="mb-2 flex gap-4 justify-between">
+              <div className="mb-2 w-full">
+                <Label htmlFor="productName">Name</Label>
+                <div className="mt-1">
+                  <TextInput
+                    onChange={(e) => setProductName(e.target.value)}
+                    value={productName}
+                    id="productName"
+                    name="productName"
+                    placeholder="Enter Product Name"
+                    required
+                  />
+                </div>
               </div>
+
+            
             </div>
-            <div>
-              <Label htmlFor="lastName">Last name</Label>
-              <div className="mt-1">
-                <TextInput id="lastName" name="lastName" placeholder="Green" />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="email">Email</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="email"
-                  name="email"
-                  placeholder="example@company.com"
-                  type="email"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="phone">Phone number</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="phone"
-                  name="phone"
-                  placeholder="e.g., +(12)3456 789"
-                  type="tel"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="department">Department</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="department"
-                  name="department"
-                  placeholder="Development"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="company">Company</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="company"
-                  name="company"
-                  placeholder="Somewhere"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="passwordCurrent">Current password</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="passwordCurrent"
-                  name="passwordCurrent"
-                  placeholder="••••••••"
-                  type="password"
-                />
-              </div>
-            </div>
-            <div>
-              <Label htmlFor="passwordNew">New password</Label>
-              <div className="mt-1">
-                <TextInput
-                  id="passwordNew"
-                  name="passwordNew"
-                  placeholder="••••••••"
-                  type="password"
-                />
-              </div>
-            </div>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button color="primary" onClick={() => setOpen(false)}>
-            Save all
-          </Button>
-        </Modal.Footer>
+
+           
+          </Modal.Body>
+          <Modal.Footer>
+            <Button color="primary" type="submit">
+              Edit Product
+            </Button>
+            <Button color="secondary" onClick={() => setOpen(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </form>
       </Modal>
     </>
   );
 };
 
-const DeleteUserModal: FC = function () {
+const DeleteProduct: any = function ({
+  getProducts,
+  product,
+  setIsLoading,
+}: any) {
   const [isOpen, setOpen] = useState(false);
+
+  const handleDelete = async () => {
+    setIsLoading(true);
+    try {
+      await axios.delete(`http://localhost:8080/boro-api/api/categories/${product._id}`);
+      console.log("Product deleted successfully");
+      await getProducts();
+      setOpen(false);
+      // Optionally, you can add a callback to refresh the product list or redirect
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Button color="failure" onClick={() => setOpen(true)}>
         <div className="flex items-center gap-x-2">
           <HiTrash className="text-lg" />
-          Delete user
         </div>
       </Button>
       <Modal onClose={() => setOpen(false)} show={isOpen} size="md">
         <Modal.Header className="px-6 pb-0 pt-6">
-          <span className="sr-only">Delete user</span>
+          <span className="sr-only">Delete {product.name}</span>
         </Modal.Header>
         <Modal.Body className="px-6 pb-6 pt-0">
           <div className="flex flex-col items-center gap-y-6 text-center">
             <HiOutlineExclamationCircle className="text-7xl text-red-500" />
             <p className="text-xl text-gray-500">
-              Are you sure you want to delete this user?
+              Are you sure you want to delete {product.name}?
             </p>
             <div className="flex items-center gap-x-3">
-              <Button color="failure" onClick={() => setOpen(false)}>
-                Yes, I'm sure
+              <Button color="failure" onClick={handleDelete}>
+                Delete
               </Button>
               <Button color="gray" onClick={() => setOpen(false)}>
-                No, cancel
+                Cancel
               </Button>
             </div>
           </div>

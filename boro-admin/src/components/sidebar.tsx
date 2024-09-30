@@ -4,6 +4,7 @@ import {  Sidebar, TextInput, Tooltip } from "flowbite-react";
 import type { FC } from "react";
 import { useEffect, useState } from "react";
 import {
+  HiArchive,
   HiChartPie,
   HiClipboard,
   HiCog,
@@ -11,6 +12,7 @@ import {
   HiInformationCircle,
   HiSearch,
   HiChip,
+  HiShoppingCart,
   HiUsers,
 } from "react-icons/hi";
 
@@ -66,6 +68,28 @@ const ExampleSidebar: FC = function () {
                   Dashboard
                 </Sidebar.Item>
                 <Sidebar.Item
+                  href="/orders/list"
+                  icon={HiShoppingCart}
+                  className={
+                    "/orders/list" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  Orders
+                </Sidebar.Item>
+                <Sidebar.Item
+                  href="/categories/list"
+                  icon={HiArchive}
+                  className={
+                    "/categories  /list" === currentPage
+                      ? "bg-gray-100 dark:bg-gray-700"
+                      : ""
+                  }
+                >
+                  Categories
+                </Sidebar.Item>
+                <Sidebar.Item
                   href="/products/list"
                   icon={HiCollection}
                   className={
@@ -77,27 +101,18 @@ const ExampleSidebar: FC = function () {
                   Products
                 </Sidebar.Item>
                 <Sidebar.Item
-                  href="/machines/list"
-                  icon={HiChip}
-                  className={
-                    "/machines/list" === currentPage
-                      ? "bg-gray-100 dark:bg-gray-700"
-                      : ""
-                  }
-                >
-                  Machines
-                </Sidebar.Item>
-                <Sidebar.Item
-                  href="/users/list"
+                  href="/accounts/list"
                   icon={HiUsers}
                   className={
-                    "/users/list" === currentPage
+                    "/accounts/list" === currentPage
                       ? "bg-gray-100 dark:bg-gray-700"
                       : ""
                   }
                 >
-                  Users
+                  Accounts
                 </Sidebar.Item>
+               
+              
               </Sidebar.ItemGroup>
               <Sidebar.ItemGroup>
                 <Sidebar.Item icon={HiClipboard}>Docs</Sidebar.Item>

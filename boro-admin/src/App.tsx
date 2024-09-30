@@ -24,11 +24,14 @@ import UserListPage from "./pages/users/list";
 import MachineListPage from "./pages/machines/list";
 import MachineProfilePage from "./pages/machines/profile";
 import ProductsListPage from "./pages/products/list";
+import OrdersListPage from "./pages/orders/list";
+import CategoriesListPage from "./pages/categories/list";
+import AccountsListPage from "./pages/accounts/list";
 import UserProfilePage from "./pages/users/profile";
 import UserSettingsPage from "./pages/users/settings";
 import FlowbiteWrapper from "./components/flowbite-wrapper";
 import { AuthProvider } from "./context/AuthContext";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App: FC = function () {
   return (
@@ -36,16 +39,8 @@ const App: FC = function () {
       <BrowserRouter>
         <Routes>
           <Route element={<FlowbiteWrapper />}>
-            <Route path="/" element={<DashboardPage />} index />
-            <Route path="/mailing/compose" element={<MailingComposePage />} />
-            <Route path="/mailing/inbox" element={<MailingInboxPage />} />
-            <Route path="/mailing/read" element={<MailingReadPage />} />
-            <Route path="/mailing/reply" element={<MailingReplyPage />} />
-            <Route path="/kanban" element={<KanbanPage />} />
-            <Route path="/pages/pricing" element={<PricingPage />} />
-            <Route path="/pages/maintenance" element={<MaintenancePage />} />
-            <Route path="/pages/404" element={<NotFoundPage />} />
-            <Route path="/pages/500" element={<ServerErrorPage />} />
+
+
             <Route path="/authentication/sign-in" element={<SignInPage />} />
             <Route path="/authentication/sign-up" element={<SignUpPage />} />
             <Route
@@ -56,29 +51,16 @@ const App: FC = function () {
               path="/authentication/reset-password"
               element={<ResetPasswordPage />}
             />
-            <Route
-              path="/authentication/profile-lock"
-              element={<ProfileLockPage />}
-            />
-            <Route
-              path="/e-commerce/billing"
-              element={<EcommerceBillingPage />}
-            />
-            <Route
-              path="/e-commerce/invoice"
-              element={<EcommerceInvoicePage />}
-            />
-            <Route
-              path="/e-commerce/products"
-              element={<EcommerceProductsPage />}
-            />
-            <Route path="/machines/list" element={<MachineListPage />} />
-            <Route path="/machines/profile" element={<MachineProfilePage />} />
-            <Route path="/products/list" element={<ProductsListPage />} />
-            <Route path="/users/feed" element={<UserFeedPage />} />
-            <Route path="/users/list" element={<UserListPage />} />
-            <Route path="/users/profile" element={<UserProfilePage />} />
-            <Route path="/users/settings" element={<UserSettingsPage />} />
+
+            <Route element={<ProtectedRoute />}>
+              <Route path="/" element={<DashboardPage />} index />
+              <Route path="/products/list" element={<ProductsListPage />} />
+              <Route path="/categories/list" element={<CategoriesListPage />} />
+              <Route path="/accounts/list" element={<AccountsListPage />} />
+              <Route path="/orders/list" element={<OrdersListPage />} />
+            </Route>
+
+
           </Route>
         </Routes>
       </BrowserRouter>

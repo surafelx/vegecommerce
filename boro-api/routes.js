@@ -18,7 +18,7 @@ router.use("/auth", authRoutes);
 router.use("/login", login);
 router.use("/register", register);
 router.use("/categories", categoriesRoutes);
-router.use("/products", productsRoutes);
+router.use("/product", productsRoutes);
 router.use("/dietary", dietaryRoutes);
 router.use("/brands", brandsRoutes);
 router.use("/orders", ordersRoutes);

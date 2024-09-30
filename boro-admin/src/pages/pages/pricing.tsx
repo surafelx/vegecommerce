@@ -1437,7 +1437,7 @@ const ExampleNavbar: FC = function () {
   return (
     <Navbar fluid className="p-6">
       <div className="flex items-center gap-x-9">
-        <Navbar.Brand href="/">Dennis Work</Navbar.Brand>
+        <Navbar.Brand href="/">Market Fresh</Navbar.Brand>
         <Navbar.Collapse>
           <Navbar.Link href="/" active>
             Home
@@ -1462,7 +1462,7 @@ const ExampleFooter: FC = function () {
     <Footer className="!justify-center rounded-none lg:pt-16">
       <div className="flex w-[95%] flex-col justify-center">
         <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-6">
-          <div className="col-span-2 flex flex-col gap-y-3">Dennis Work</div>
+          <div className="col-span-2 flex flex-col gap-y-3">Market Fresh</div>
           <div>
             <Footer.Title title="Resources" />
             <Footer.LinkGroup col>

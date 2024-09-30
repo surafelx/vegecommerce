@@ -39,7 +39,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   async function onSubmit({ email, password, remember_me }: LoginInputType) {
     try {
-      const res = await fetch('https://agrisunethiopia.com/boro-api/api/auth/login', {
+      const res = await fetch('http://localhost:8080/boro-api/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

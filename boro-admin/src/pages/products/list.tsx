@@ -35,7 +35,7 @@ const UserListPage: FC = function () {
 
   const getProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/products");
+      const response = await axios.get("http://localhost:8080/boro-api/api/products/all");
       setProducts(response.data.data);
       return response.data;
     } catch (error) {
@@ -194,7 +194,7 @@ const AddProduct: any = ({ setIsLoading, getProducts }: any) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/products",
+        "http://localhost:8080/boro-api/api/products",
         formData,
         {
           headers: {
@@ -548,7 +548,7 @@ const EditProduct: any = ({ getProducts, product, setIsLoading }: any) => {
     }
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/products/${product._id}`,
+        `http://localhost:8080/boro-api/api/products/${product._id}`,
         formData,
         {
           headers: {
@@ -749,7 +749,7 @@ const DeleteProduct: any = function ({
   const handleDelete = async () => {
     setIsLoading(true);
     try {
-      await axios.delete(`http://localhost:8080/api/products/${product._id}`);
+      await axios.delete(`http://localhost:8080/boro-api/api/products/${product._id}`);
       console.log("Product deleted successfully");
       await getProducts();
       setOpen(false);

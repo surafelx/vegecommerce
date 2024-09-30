@@ -5,12 +5,11 @@ import { useMutation } from '@tanstack/react-query';
 export interface SignUpInputType {
   email: string;
   password: string;
-  name: string;
   remember_me: boolean;
 }
 async function signUp(input: SignUpInputType) {
   return {
-    token: `${input.email}.${input.name}`.split('').reverse().join(''),
+    token: `${input.email}`.split('').reverse().join(''),
   };
 }
 export const useSignUpMutation = () => {

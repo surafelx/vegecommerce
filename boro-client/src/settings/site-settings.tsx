@@ -26,63 +26,63 @@ export const siteSettings = {
   currencyCode: 'USD',
   site_header: {
     menu: [
-      {
-        id: 1,
-        path: '/',
-        label: 'menu-demos',
-        subMenu: [
-          {
-            id: 1,
-            path: '/',
-            label: 'menu-modern',
-          },
-          {
-            id: 2,
-            path: '/classic',
-            label: 'menu-classic',
-          },
-          {
-            id: 3,
-            path: '/vintage',
-            label: 'menu-vintage',
-          },
-          {
-            id: 4,
-            path: '/standard',
-            label: 'menu-standard',
-          },
-          {
-            id: 5,
-            path: '/minimal',
-            label: 'menu-minimal',
-          },
-          {
-            id: 6,
-            path: '/trendy',
-            label: 'menu-trendy',
-          },
-          {
-            id: 7,
-            path: '/elegant',
-            label: 'menu-elegant',
-          },
-          {
-            id: 8,
-            path: '/refined',
-            label: 'menu-refined',
-          },
-          {
-            id: 9,
-            path: '/antique',
-            label: 'menu-antique',
-          },
-          {
-            id: 10,
-            path: '/ancient',
-            label: 'menu-ancient',
-          },
-        ],
-      },
+      // {
+      //   id: 1,
+      //   path: '/',
+      //   label: 'menu-demos',
+      //   subMenu: [
+      //     {
+      //       id: 1,
+      //       path: '/',
+      //       label: 'menu-modern',
+      //     },
+      //     {
+      //       id: 2,
+      //       path: '/classic',
+      //       label: 'menu-classic',
+      //     },
+      //     {
+      //       id: 3,
+      //       path: '/vintage',
+      //       label: 'menu-vintage',
+      //     },
+      //     {
+      //       id: 4,
+      //       path: '/standard',
+      //       label: 'menu-standard',
+      //     },
+      //     {
+      //       id: 5,
+      //       path: '/minimal',
+      //       label: 'menu-minimal',
+      //     },
+      //     {
+      //       id: 6,
+      //       path: '/trendy',
+      //       label: 'menu-trendy',
+      //     },
+      //     {
+      //       id: 7,
+      //       path: '/elegant',
+      //       label: 'menu-elegant',
+      //     },
+      //     {
+      //       id: 8,
+      //       path: '/refined',
+      //       label: 'menu-refined',
+      //     },
+      //     {
+      //       id: 9,
+      //       path: '/antique',
+      //       label: 'menu-antique',
+      //     },
+      //     {
+      //       id: 10,
+      //       path: '/ancient',
+      //       label: 'menu-ancient',
+      //     },
+      //   ],
+      // },
       {
         id: 2,
         path: '/search',

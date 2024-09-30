@@ -6,7 +6,7 @@ const ResetPasswordPage: FC = function () {
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <a href="/" className="my-6 flex items-center gap-x-1 lg:my-0">
-        Dennis Work
+        Market Fresh
       </a>
       <Card
         horizontal

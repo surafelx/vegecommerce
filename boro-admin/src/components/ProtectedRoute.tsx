@@ -1,19 +1,21 @@
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; // Adjust the path if necessary
 
 interface ProtectedRouteProps {
-  element: JSX.Element;
+  children: ReactNode;
 }
 
-const ProtectedRoute: FC<ProtectedRouteProps> = ({ element }) => {
-  const { isAuthenticated } = useAuth();
+const ProtectedRoute: FC<ProtectedRouteProps> = ({ children }) => {
+  const { isAuthenticated } = useAuth(); // Retrieve authentication status from context
 
+  // Redirect to sign-in page if not authenticated
   if (!isAuthenticated) {
-    return <Navigate to="/authentication/sign-in" />;
+    return <Navigate to="/authentication/sign-in" replace />;
   }
 
-  return element;
+  // Render children if authenticated
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

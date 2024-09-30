@@ -1,8 +1,9 @@
-const Category = require("../models/categoryModel");
+const User = require("../models/userModel");
+const bcrypt = require("bcryptjs");
 
-exports.getCategories = async (req, res) => {
+exports.getAccounts = async (req, res) => {
   try {
-    const categories = await Category.find({});
+    const categories = await User.find({});
     res.json({
       data: categories,
     });
@@ -14,14 +15,14 @@ exports.getCategories = async (req, res) => {
   }
 };
 
-exports.editCategory = async (req, res) => {
+exports.editAccount = async (req, res) => {
   const { id } = req.params;
-  const { name, } = req.body;
+  const {  email, password, role } = req.body;
 
   try {
-    const updatedProduct = await Category.findByIdAndUpdate(
+    const updatedProduct = await User.findByIdAndUpdate(
       id,
-      { name },
+      { email, password, role},
       { new: true, runValidators: true }
     );
 
@@ -33,12 +34,12 @@ exports.editCategory = async (req, res) => {
   }
 };
 
-exports.deleteCategory = async (req, res) => {
+exports.deleteAccount = async (req, res) => {
   const { id } = req.params;
 
   try {
     // Find and delete the product by ID
-    const deletedProduct = await Category.findByIdAndDelete(id);
+    const deletedProduct = await User.findByIdAndDelete(id);
 
     if (!deletedProduct) {
       // If no product is found with the given ID
@@ -55,13 +56,14 @@ exports.deleteCategory = async (req, res) => {
 };
 
 
-exports.addCategory = async (req, res) => {
+exports.addAccount = async (req, res) => {
 console.log(req.body)
-  const { name} = req.body;
+  const { email, role, password} = req.body;
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
   try {
-    const newProduct = new Category({
-      name,
-      
+    const newProduct = new User({
+      email,  password: hashedPassword, role,
     });
 
     const savedProduct = await newProduct.save();

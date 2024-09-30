@@ -1,12 +1,33 @@
+"use-client"
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Button, Card, Checkbox, Label, TextInput } from "flowbite-react";
-import type { FC } from "react";
+import type { FC, FormEvent,  } from "react";
+import { useAuth } from "../../context/AuthContext"; // Adjust the path based on your folder structure
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
+import {useState} from "react"
 
 const SignInPage: FC = function () {
+  const { login } = useAuth(); // Get the login function from context
+  const navigate = useNavigate(); // For programmatic navigation
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    
+    try {
+      await login(email, password); // Call your login function
+      navigate("/"); // Redirect to the dashboard or homepage after successful login
+    } catch (err) {
+      setError("Invalid email or password"); // Handle login error
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center px-6 lg:h-screen lg:gap-y-12">
       <a href="/" className="my-6 flex items-center gap-x-1 lg:my-0">
-        Dennis Work
+        Market Fresh
       </a>
       <Card
         horizontal
@@ -16,7 +37,8 @@ const SignInPage: FC = function () {
         <h1 className="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
           Sign in to platform
         </h1>
-        <form>
+        <form onSubmit={handleSubmit}>
+          {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
           <div className="mb-4 flex flex-col gap-y-3">
             <Label htmlFor="email">Your email</Label>
             <TextInput
@@ -24,6 +46,8 @@ const SignInPage: FC = function () {
               name="email"
               placeholder="name@company.com"
               type="email"
+              value={email} // Bind the email state
+              onChange={(e) => setEmail(e.target.value)} // Update state on change
             />
           </div>
           <div className="mb-6 flex flex-col gap-y-3">
@@ -33,6 +57,8 @@ const SignInPage: FC = function () {
               name="password"
               placeholder="••••••••"
               type="password"
+              value={password} // Bind the password state
+              onChange={(e) => setPassword(e.target.value)} // Update state on change
             />
           </div>
           <div className="mb-6 flex items-center justify-between">
